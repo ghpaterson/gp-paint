@@ -33,17 +33,22 @@ const page: FC<pageProps> = ({}) => {
   }
 
   return (
-  <div className="w-screen h-screen flex justify-center items-center bg-gray-200">
-    <div className="flex flex-col gap-10 mr-10">
-      <ChromePicker color={color} onChange={(e) => setColor(e.hex)}/>
-      <button type="button" onClick={reset} className="bg-green-800 text-white py-2 rounded-lg">Reset</button>
+  <div className="w-screen h-screen flex justify-center items-center bg-yellow-100">
+    <div className="flex flex-col gap-10 mr-16">
+      <h1 className="text-6xl text-green-800 font-eightbit">DOODLE</h1>
+      <div className="flex justify-center">
+        <ChromePicker color={color} onChange={(e) => setColor(e.hex)}/>
+      </div>
+      <div className="flex justify-center">
+        <button type="button" onClick={reset} className="bg-green-800 text-white py-2 px-4 rounded-lg">Reset</button>
+      </div>
     </div>
     <canvas 
       onMouseDown={onMouseDown} 
       ref={canvasRef} 
       width={650} 
-      height={650} 
-      className='border border-black rounded-md' />
+      height={600} 
+      className=' bg-white  rounded-md' />
   </div>
   )
 }
