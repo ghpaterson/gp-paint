@@ -11,11 +11,14 @@ export const useDraw = (onDraw: ({contextCanvas, currentPoint, prevPoint}: Draw)
 
     useEffect(() => {
       const handler = (e: MouseEvent) => {
-        console.log({x: e.clientX, y: e.clientY})
+        if (!mouseDown) return
         const currentPoint = computePointInCanvas(e)
 
         const contextCanvas = canvasRef.current?.getContext('2d')
         if (!contextCanvas || !currentPoint) return
+
+        onDraw({contextCanvas, currentPoint, prevPoint: prevPoint.current})
+        prevPoint.current = currentPoint
       }
 
       //mouse position relevant to canvas not screen
@@ -29,12 +32,22 @@ export const useDraw = (onDraw: ({contextCanvas, currentPoint, prevPoint}: Draw)
 
         return {x, y}
       }
+
+      const mouseUpHandler = () => {
+        setMouseDown(false)
+        prevPoint.current = null
+      }
+
       //add eventlister
       canvasRef.current?.addEventListener('mousemove', handler)
+      window.addEventListener('mouseup', mouseUpHandler)
 
       //remove event listener
-      return () => canvasRef.current?.addEventListener('mousemove', handler)
-    }, [])
+      return () => {
+        canvasRef.current?.removeEventListener('mousemove', handler)
+        window.removeEventListener('mouseup', mouseUpHandler)
+         }
+    }, [onDraw])
 
     return {canvasRef, onMouseDown}
 }
