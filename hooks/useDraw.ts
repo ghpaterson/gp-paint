@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react"
 
-export const useDraw = (onDraw: ({contextCanvas, currentPoint, prevPoint}: Draw)) => {
+export const useDraw = (onDraw: ({contextCanvas, currentPoint, prevPoint}: Draw) => void) => {
 
     const canvasRef = useRef<HTMLCanvasElement>(null)
 
