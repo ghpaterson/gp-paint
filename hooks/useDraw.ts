@@ -1,12 +1,28 @@
 import { useEffect, useRef } from "react"
 
-export const useDraw = () => {
+export const useDraw = (onDraw: ({contextCanvas, currentPoint, prevPoint}: Draw)) => {
 
     const canvasRef = useRef<HTMLCanvasElement>(null)
 
     useEffect(() => {
       const handler = (e: MouseEvent) => {
         console.log({x: e.clientX, y: e.clientY})
+        const currentPoint = computePointInCanvas(e)
+
+        const contextCanvas = canvasRef.current?.getContext('2d')
+        if (!contextCanvas || !currentPoint) return
+      }
+
+      //mouse position relevant to canvas not screen
+      const computePointInCanvas = (e: MouseEvent) => {
+        const canvas = canvasRef.current
+        if (!canvas) return 
+
+        const rect = canvas.getBoundingClientRect()
+        const x = e.clientX - rect.left
+        const y = e.clientY - rect.top
+
+        return {x, y}
       }
       //add eventlister
       canvasRef.current?.addEventListener('mousemove', handler)
