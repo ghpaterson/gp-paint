@@ -8,7 +8,7 @@ interface pageProps {
 }
 
 const page: FC<pageProps> = ({}) => {
-  const {canvasRef} = useDraw(drawLine)
+  const {canvasRef, onMouseDown} = useDraw(drawLine)
 
   function drawLine({prevPoint, currentPoint, contextCanvas}: Draw) {
     const {x: currX, y: currY} = currentPoint
@@ -32,7 +32,12 @@ const page: FC<pageProps> = ({}) => {
 
   return (
   <div className="w-screen h-screen flex justify-center items-center bg-gray-200">
-    <canvas ref={canvasRef} width={650} height={650} className='border border-black rounded-md' />
+    <canvas 
+      onMouseDown={onMouseDown} 
+      ref={canvasRef} 
+      width={650} 
+      height={650} 
+      className='border border-black rounded-md' />
   </div>
   )
 }
